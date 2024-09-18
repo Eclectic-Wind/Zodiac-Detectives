@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zodiac Detectives Master Document</title>
+    <style>
+      :root {
+        --bg-color: #f0f0f0;
+        --main-bg-color: white;
+        --text-color: #333;
+        --paragraph-color: #666;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, sans-serif;
+        background-color: var(--bg-color);
+        transition: background-color 0.3s ease;
+      }
+      .main-content {
+        width: 50%;
+        min-height: 100vh;
+        background-color: var(--main-bg-color);
+        box-shadow: 0 0 10px var(--shadow-color);
+        padding: 50px;
+        box-sizing: border-box;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        color: var(--text-color);
+        transition: color 0.3s ease;
+        text-align: center;
+      }
+      p {
+        line-height: 1.6;
+        color: var(--paragraph-color);
+        transition: color 0.3s ease;
+        text-indent: 2em;
+      }
+      .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: var(--text-color);
+        transition: color 0.3s ease;
+      }
+      .table-of-contents {
+        position: fixed;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: var(--main-bg-color);
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px var(--shadow-color);
+        transition: background-color 0.3s ease, color 0.3s ease,
+          box-shadow 0.3s ease;
+        width: 20%;
+        height: 80vh;
+        overflow-y: auto;
+      }
+      .table-of-contents ul {
+        list-style-type: none;
+        padding-left: 20px;
+      }
+      .table-of-contents li {
+        margin-bottom: 10px;
+        position: relative;
+      }
+      .table-of-contents li li {
+        margin-bottom: 5px;
+        margin-top: 5px;
+      }
+      .table-of-contents ul ul {
+        padding-left: 15px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+      }
+      .table-of-contents a {
+        color: var(--text-color);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+      .table-of-contents a:hover {
+        color: var(--paragraph-color);
+      }
+      .dark-theme {
+        --bg-color: #222;
+        --main-bg-color: #333;
+        --text-color: #f0f0f0;
+        --paragraph-color: #bbb;
+      }
+      .collapsible {
+        cursor: pointer;
+        user-select: none;
+      }
+      .collapsible::before {
+        content: "\25B6";
+        display: inline-block;
+        margin-right: 10px;
+        transition: transform 0.3s;
+        font-size: 0.5em;
+      }
+      .collapsible.active::before {
+        transform: rotate(90deg);
+      }
+      .content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.1s ease-out;
+      }
+      .content.active {
+        max-height: 1000px; /* Adjust this value based on your content */
+        transition: max-height 0.1s ease-in;
+      }
+      .table-of-contents h2 {
+        cursor: default;
+        user-select: none;
+      }
+      .table-of-contents > ul > li > a.has-submenu::before {
+        position: absolute;
+        content: "\25B6";
+        display: inline-block;
+        margin-right: 5px;
+        transition: transform 0.3s;
+        font-size: 0.5em;
+        left: -15px;
+        top: 4px;
+        transform: none;
+        cursor: pointer;
+      }
+      .table-of-contents > ul > li > a.has-submenu.active::before {
+        transform: rotate(90deg);
+      }
+      .back-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: var(--main-bg-color);
+        color: var(--text-color);
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+        cursor: pointer;
+        display: none;
+        transition: background-color 0.3s, color 0.3s;
+      }
+      .back-to-top:hover {
+        background: var(--text-color);
+        color: var(--main-bg-color);
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">
+      <i class="fas fa-moon"></i>
+    </button>
+    <nav class="table-of-contents" aria-label="Table of contents">
+      <h2>Contents</h2>
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li>
+          <a href="#characters" class="has-submenu">Characters</a>
+          <ul>
+            <li><a href="#tiger">Tiger</a></li>
+            <li><a href="#monkey">Monkey</a></li>
+            <li><a href="#snake">Snake</a></li>
+            <li><a href="#rooster">Rooster</a></li>
+            <li><a href="#pig">Pig</a></li>
+            <li><a href="#horse">Horse</a></li>
+            <li><a href="#dragon">Dragon</a></li>
+            <li><a href="#rat">Rat</a></li>
+            <li><a href="#rabbit">Rabbit</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <div class="main-content">
+      <h1>
+        Zodiac Detectives <br />
+        Master Document
+      </h1>
+
+      <h2 id="overview" class="collapsible">Overview</h2>
+      <div class="content">
+        <p>
+          The Zodiac Detectives is a narrative centered on a detective agency
+          operating in the city of [11-Xui]. As the story unfolds, the agency's
+          investigations lead to the gradual uncovering of a massive conspiracy
+          that permeates the city. At the heart of this mystery lies Dragon, the
+          enigmatic figure behind the agency's creation.
+        </p>
+      </div>
+
+      <h2 id="characters" class="collapsible">Characters</h2>
+      <div class="content">
+        <h3 id="tiger" class="collapsible">Tiger</h3>
+        <div class="content">
+          <p>
+            Tiger embodies the archetypal tough detective. He possesses a rough
+            exterior and an imposing physical presence, standing out as large
+            and well-built. Tiger's approach to detective work is characterized
+            by his preference for direct action and his distaste for
+            inefficiencies or obstacles. His serious and stoic demeanor belies a
+            calm, almost relaxed charm reminiscent of a veteran soldier who
+            knows the ins and outs of his profession.
+          </p>
+          <p>
+            In his investigative work, Tiger excels at interpersonal
+            interactions, particularly interrogations. He employs a range of
+            techniques, from intimidation to professional courtesy, always with
+            the singular goal of extracting the truth. While he may appear
+            slow-moving, Tiger's actions carry significant weight, driving
+            investigations forward with the unstoppable momentum of a heavy
+            sphere.
+          </p>
+          <p>
+            Tiger's personal habits include frequent smoking and a fondness for
+            coffee, often indulging in these during investigations.
+          </p>
+        </div>
+        <h3 id="monkey" class="collapsible">Monkey</h3>
+        <div class="content">
+          <p>
+            Monkey presents a stark contrast to Tiger's stoic professionalism.
+            Tall and baby-faced, Monkey is defined by his sarcastic wit and
+            pride in his abilities. His approach to detective work is
+            unconventional, marked by intuitive leaps that often seem
+            disconnected from logical progression. This tendency to skip steps
+            in reasoning can lead to multiple failed attempts before arriving at
+            a solution, but also results in remarkable breakthroughs.
+          </p>
+          <p>
+            Monkey's attitude towards his role in the agency is notably casual.
+            He views his position as either a temporary stopgap or a job he's
+            likely to lose due to his frequent tardiness. Despite this, or
+            perhaps because of it, Monkey maintains a relaxed demeanor, his mind
+            often preoccupied with interests beyond the immediate casework.
+          </p>
+          <p>
+            A distinctive feature of Monkey's appearance is his oversized coat,
+            which perpetually hangs off one shoulder, as if always a size too
+            large for him.
+          </p>
+        </div>
+
+        <h3 id="snake" class="collapsible">Snake</h3>
+        <div class="content">
+          <p>
+            Snake brings a unique set of skills to the agency through her
+            extensive social connections and comprehensive mental map of the
+            city's social dynamics. Her approach to detective work is
+            characterized by patience and thoroughness. Snake gathers
+            information steadily, building a complete picture of a situation
+            before drawing conclusions. Her method is often described as slowly
+            constricting around the truth until it has nowhere to hide.
+          </p>
+          <p>
+            Personality-wise, Snake exudes confidence and maintains a
+            laissez-faire attitude towards her work and life in general. While
+            she enjoys her role as a detective, she, like Monkey, doesn't
+            necessarily view it as a long-term career. However, unlike Monkey,
+            she's content with the possibility of remaining in this line of work
+            indefinitely.
+          </p>
+          <p>
+            Snake's expertise primarily lies in understanding the social
+            networks of the working class and lower levels of city politics.
+            While she has some awareness of higher political echelons, her deep
+            insights are concentrated in the grassroots levels of [11-Xui]'s
+            society.
+          </p>
+        </div>
+
+        <h3 id="rooster" class="collapsible">Rooster</h3>
+        <div class="content">
+          <p>
+            Rooster stands out as a relatively new addition to the detective
+            team, bringing youthful energy and a strong desire to prove himself.
+            His primary strength lies in his meticulous approach to evidence
+            collection and his exceptional eye for detail. Rooster's work is
+            characterized by his tendency to gather far more evidence than might
+            seem necessary, often providing a hundred pieces of information
+            where others might need only a few to solve a case.
+          </p>
+          <p>
+            Despite his prowess in information gathering, Rooster struggles with
+            the analytical aspects of detective work. He often finds it
+            challenging to synthesize the vast amounts of data he collects into
+            coherent conclusions. This combination of strengths and limitations
+            makes Rooster a valuable but still developing member of the
+            investigative team.
+          </p>
+        </div>
+
+        <h3 id="pig" class="collapsible">Pig</h3>
+        <div class="content">
+          <p>
+            Pig, also known as Mycroft, serves as the agency's information hub
+            and data analyst. His role is marked by near-constant presence at
+            his computer terminal, to the point where his colleagues are unsure
+            if he ever sleeps. The sound of his keyboard is a perpetual backdrop
+            to the agency's operations.
+          </p>
+          <p>
+            Pig's knowledge base is vast and varied, encompassing intricate
+            details about [11-Xui], from street layouts and vehicle
+            registrations to restaurant menus and obscure trivia. This
+            encyclopedic knowledge often proves crucial in connecting seemingly
+            unrelated pieces of evidence.
+          </p>
+          <p>
+            In terms of personality, Pig strikes a balance between confidence in
+            his abilities and a lack of overt arrogance. His most distinctive
+            trait is his manner of speaking, described as "rounded" or lulling,
+            even when explaining complex concepts or theories.
+          </p>
+        </div>
+
+        <h3 id="horse" class="collapsible">Horse</h3>
+        <div class="content">
+          <p>
+            Horse is defined by her extraordinary stamina and unwavering focus.
+            Her capacity for sustained, high-intensity work sets her apart
+            within the agency. Whether it's pursuing a suspect for hours on end
+            or tackling a complex puzzle without breaks, Horse approaches tasks
+            with a consistency that borders on machine-like efficiency.
+          </p>
+          <p>
+            In her interactions with others, Horse tends to speak in a
+            matter-of-fact manner. Her demeanor can sometimes come across as
+            impatient, likely stemming from her intense focus on the task at
+            hand and her drive for efficiency.
+          </p>
+        </div>
+
+        <h3 id="dragon" class="collapsible">Dragon</h3>
+        <div class="content">
+          <p>
+            Dragon is the founder of the Zodiac Detective Agency. His presence
+            in the agency is rare, as he's often engaged in business or
+            political dealings elsewhere in the city. Despite his frequent
+            absence, Dragon's influence permeates the agency's operations.
+          </p>
+          <p>
+            Characterized by his enigmatic nature, Dragon possesses a level of
+            wisdom and knowledge that commands respect even from the agency's
+            most experienced members, including the omniscient Pig. His
+            interpersonal skills are remarkable; he has a talent for charming
+            others and showing genuine interest in a wide range of subjects and
+            people's personal lives.
+          </p>
+          <p>
+            Dragon's appearance is distinctive, featuring long white hair and
+            headphones adorned with horn decals. His broader goals and the full
+            extent of his dealings in [11-Xui] remain a mystery to the agency
+            members.
+          </p>
+        </div>
+
+        <h3 id="rat" class="collapsible">Rat</h3>
+        <div class="content">
+          <p>
+            Purported to be the true founder of the Zodiac Detective Agency,
+            Rat's existence has been erased from the timeline. With Dragon being
+            the only member of the agency who retains any knowledge of Rat's
+            existence or role.
+          </p>
+          <p>
+            Rat's most defining characteristic is his extraordinary intuition
+            for truth. This ability is described as seeing the "silhouette of
+            reality," allowing him to grasp the general shape of a situation
+            without immediately discerning its details. This constant interplay
+            between intuitive understanding and the need for concrete
+            information often places Rat in precarious situations, but also
+            allows him to navigate complex scenarios with remarkable agility.
+          </p>
+          <p>
+            Importantly, before his erasure from the timeline, Rat had a
+            premonition of his impending fate. Acting on this intuition, he
+            implemented certain precautionary measures, the nature and extent of
+            which remain unknown.
+          </p>
+        </div>
+
+        <h3 id="rabbit" class="collapsible">Rabbit</h3>
+        <div class="content">
+          <p>
+            Rabbit plays a brief but significant role in the Zodiac Detectives
+            narrative. Characterized by her gentle nature and innate curiosity,
+            Rabbit's involvement in the story centers around her accidental
+            discovery of a metaphorical or literal "rabbit hole." This discovery
+            leads to her subsequent disappearance, the circumstances and
+            implications of which remain a mystery within the broader narrative.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+      const themeToggle = document.getElementById("themeToggle");
+      const icon = themeToggle.querySelector("i");
+
+      function setTheme(isDark) {
+        document.documentElement.classList.toggle("dark-theme", isDark);
+        icon.classList.toggle("fa-moon", !isDark);
+        icon.classList.toggle("fa-sun", isDark);
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+      }
+
+      // Check for saved theme preference or use system preference
+      const prefersDarkScheme = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      );
+      const currentTheme = localStorage.getItem("theme");
+      if (
+        currentTheme === "dark" ||
+        (currentTheme === null && prefersDarkScheme.matches)
+      ) {
+        setTheme(true);
+      }
+
+      themeToggle.addEventListener("click", () => {
+        setTheme(!document.documentElement.classList.contains("dark-theme"));
+      });
+
+      // Listen for changes in system color scheme
+      prefersDarkScheme.addListener((e) => {
+        if (localStorage.getItem("theme") === null) {
+          setTheme(e.matches);
+        }
+      });
+
+      // Smooth scrolling for table of contents links
+      document
+        .querySelectorAll('.table-of-contents a[href^="#"]')
+        .forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute("href")).scrollIntoView({
+              behavior: "smooth",
+            });
+          });
+        });
+
+      // Update the collapsible functionality
+      document.querySelectorAll(".collapsible").forEach((header) => {
+        header.addEventListener("click", function () {
+          this.classList.toggle("active");
+          let content = this.nextElementSibling;
+          if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+          } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+
+            // Check if this content has parent collapsibles and update their maxHeight
+            let parent = content.parentElement;
+            while (parent) {
+              if (parent.classList.contains("content")) {
+                parent.style.maxHeight =
+                  parent.scrollHeight + content.scrollHeight + "px";
+              }
+              parent = parent.parentElement;
+            }
+          }
+        });
+      });
+
+      // Initialize all sections as collapsed, except for overview
+      document.querySelectorAll(".content").forEach((content) => {
+        if (content.previousElementSibling.id !== "overview") {
+          content.style.maxHeight = null;
+          content.previousElementSibling.classList.remove("active");
+        } else {
+          content.style.maxHeight = content.scrollHeight + "px";
+          content.previousElementSibling.classList.add("active");
+        }
+      });
+
+      // Ensure the first layer of the table of contents is always visible
+      const tocContent = document.querySelector(".table-of-contents > ul");
+      const tocFirstLevelItems = document.querySelectorAll(
+        ".table-of-contents > ul > li"
+      );
+
+      tocFirstLevelItems.forEach((item) => {
+        const link = item.querySelector("a");
+        const subList = item.querySelector("ul");
+        if (subList) {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            this.classList.toggle("active");
+            if (subList.style.maxHeight) {
+              subList.style.maxHeight = null;
+            } else {
+              subList.style.maxHeight = subList.scrollHeight + "px";
+            }
+          });
+        }
+      });
+
+      // Back to Top functionality
+      const backToTopButton = document.getElementById("backToTop");
+
+      window.onscroll = function () {
+        if (
+          document.body.scrollTop > 20 ||
+          document.documentElement.scrollTop > 20
+        ) {
+          backToTopButton.style.display = "block";
+        } else {
+          backToTopButton.style.display = "none";
+        }
+      };
+
+      backToTopButton.addEventListener("click", function () {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+      });
+
+      // Smooth scrolling for all internal links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

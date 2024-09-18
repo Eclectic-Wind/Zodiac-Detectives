@@ -1,0 +1,261 @@
+:root {
+  --bg-color: #ffffff;
+  --content-color: #eeeeee;
+  --text-color: #000000;
+  --accent-color: #666666;
+  --transition-duration: 0.3s;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark theme */
+html[data-theme="dark"] {
+  --bg-color: #1a1a1a;
+  --content-color: #333333;
+  --text-color: #ffffff;
+  --accent-color: #999999;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+}
+
+body {
+  font-family: "Source Serif Pro", serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color var(--transition-duration),
+    color var(--transition-duration);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  position: sticky;
+  top: 0;
+  background-color: var(--bg-color);
+  z-index: 1000;
+  transition: background-color var(--transition-duration),
+    border-color var(--transition-duration),
+    box-shadow var(--transition-duration);
+  box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.header-main-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
+header h1 {
+  margin-left: 5rem;
+  font-family: "Playfair Display", serif;
+  font-size: 2.5rem;
+}
+
+header h1::after {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 3rem;
+  background-color: var(--text-color);
+  margin: 0 2rem;
+  vertical-align: middle;
+  transition: background-color var(--transition-duration);
+}
+
+header nav {
+  display: flex;
+  align-items: center;
+}
+
+header nav a {
+  margin: 0 1rem;
+  text-decoration: none;
+  color: var(--text-color);
+  position: relative;
+  transition: color var(--transition-duration);
+  cursor: pointer;
+  caret-color: transparent;
+}
+
+header nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--text-color);
+  transform: scaleX(0);
+  transition: transform var(--transition-duration) ease-in-out,
+    background-color var(--transition-duration);
+}
+
+header nav a.active::after {
+  transform: scaleX(1);
+}
+
+header body.navigating nav a::after {
+  transition: none;
+}
+
+#theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: var(--text-color);
+  transition: color var(--transition-duration);
+}
+
+#main-content {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overflow-y: auto;
+  height: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100vw;
+  scroll-behavior: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  background-color: var(--content-color);
+  transition: background-color var(--transition-duration);
+}
+
+#main-content::-webkit-scrollbar {
+  display: none; /* WebKit */
+}
+
+@media (max-width: 875px) {
+  header h1,
+  header h1::after {
+    display: none;
+  }
+
+  .header-main-container {
+    justify-content: center;
+  }
+
+  header nav {
+    margin: 0 auto;
+  }
+
+  header nav a {
+    font-size: 1.2rem;
+  }
+
+  .port {
+    height: calc(100vh - 60px) !important;
+  }
+}
+
+/* Add this new class */
+#main-content.smooth-scroll {
+  scroll-behavior: smooth;
+}
+
+.page {
+  flex: 0 0 100%;
+  width: 100vw;
+  height: 100%;
+  scroll-snap-align: start;
+  box-sizing: border-box;
+}
+
+.port {
+  position: relative;
+  height: calc(100vh - 137px);
+  overflow-y: hidden;
+}
+
+.content {
+  background-color: var(--bg-color);
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 20px var(--shadow-color);
+  max-width: 80%;
+  width: 600px;
+  text-align: center;
+  transition: background-color var(--transition-duration),
+    box-shadow var(--transition-duration);
+}
+
+.content-container {
+  position: relative;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  box-shadow: -10px 0 20px -5px var(--shadow-color),
+    10px 0 20px -5px var(--shadow-color);
+  margin: 0 auto;
+  position: relative;
+  padding: 2rem;
+  background-color: var(--bg-color);
+  transition: background-color var(--transition-duration),
+    box-shadow var(--transition-duration);
+}
+
+.extra-content {
+  z-index: -1;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: var(--bg-color);
+  width: 100%;
+  text-align: center;
+  transition: background-color var(--transition-duration),
+    border-color var(--transition-duration);
+  z-index: 1000; /* Ensure footer is always on top */
+}
+
+/* Add these new styles for scroll indicators */
+.scroll-indicator {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+  transition: background-color var(--transition-duration),
+    color var(--transition-duration);
+}
+
+.scroll-left {
+  left: 20px;
+}
+
+.scroll-right {
+  right: 20px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.page .content,
+.page .port {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in-out forwards;
+  animation-delay: 0.3s; /* Adjust this value to change the delay */
+}

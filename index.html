@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zodiac Detectives</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <!-- Add this script to apply the theme immediately -->
+    <script>
+      (function () {
+        const storedTheme = localStorage.getItem("theme");
+        if (storedTheme) {
+          document.documentElement.setAttribute("data-theme", storedTheme);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <header>
+      <div class="header-main-container">
+        <h1>ZODIAC DETECTIVES</h1>
+        <nav>
+          <a href="#info">INFO</a>
+          <a href="#home" class="active">HOME</a>
+          <a href="#map">MAP</a>
+        </nav>
+      </div>
+      <button id="theme-toggle"><i class="fas fa-sun"></i></button>
+    </header>
+
+    <main id="main-content">
+      <section id="info" class="page">
+        <div class="port">
+          <div class="content">
+            <p>
+              Zodiac Detectives is a creative writing project centered around
+              the detective agency [name not chosen], an agency created by an
+              enigmatic man called Dragon, with each of its roster of detectives
+              being an animal in the Chinese Zodiac.
+            </p>
+            <p>by Kam and Xi.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="home" class="page">
+        <div class="port">
+          <div class="content-container">
+            <h1>THIS IS CHAPTER 1</h1>
+          </div>
+          <div class="extra-content"></div>
+        </div>
+      </section>
+
+      <section id="map" class="page">
+        <div id="map-canvas"></div>
+      </section>
+    </main>
+
+    <script src="main.js"></script>
+  </body>
+</html>
